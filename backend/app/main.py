@@ -1,7 +1,7 @@
 import logging
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, Request
+from fastapi import Depends, FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -13,6 +13,7 @@ from app.core.logging import setup_logging
 from app.core.middleware import request_middleware
 from app.core.supabase import get_supabase_admin_client
 from app.schemas.common import ErrorDetail, ErrorResponse
+from app.core.auth import AuthenticatedUser, get_current_user
 
 
 setup_logging()
@@ -106,7 +107,10 @@ async def http_exception_handler(
                 message=str(exc.detail),
             )
         ).model_dump(),
-        headers={"X-Request-ID": getattr(request.state, "request_id", "")},
+        headers={
+            **(exc.headers or {}),
+            "X-Request-ID": getattr(request.state, "request_id", ""),
+        },
     )
 
 
@@ -205,3 +209,17 @@ async def versioned_health():
         },
     }
 
+@app.get(
+    f"{settings.API_V1_PREFIX}/auth/me",
+    tags=["Authentication"],
+)
+async def get_authenticated_user(
+    current_user: AuthenticatedUser = Depends(get_current_user),
+):
+    return {
+        "success": True,
+        "data": {
+            "id": str(current_user.id),
+            "email": current_user.email,
+        },
+    }

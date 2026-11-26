@@ -23,6 +23,7 @@ class Settings(BaseSettings):
     LOG_LEVEL: str = "INFO"
 
     SUPABASE_URL: str | None = None
+    SUPABASE_ANON_KEY: str | None = None
     SUPABASE_SERVICE_ROLE_KEY: str | None = None
 
     AI_API_KEY: str | None = None
