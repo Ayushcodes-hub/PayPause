@@ -14,6 +14,9 @@ from app.core.middleware import request_middleware
 from app.core.supabase import get_supabase_admin_client
 from app.schemas.common import ErrorDetail, ErrorResponse
 from app.core.auth import AuthenticatedUser, get_current_user
+from app.api.v1.payguard import router as payguard_router
+from app.api.v1.billsense import router as billsense_router
+from app.api.v1.payment_passport import router as payment_passport_router
 
 
 setup_logging()
@@ -47,6 +50,22 @@ app.add_middleware(
 )
 
 app.middleware("http")(request_middleware)
+
+
+app.include_router(
+    payguard_router,
+    prefix=settings.API_V1_PREFIX,
+)
+
+app.include_router(
+    billsense_router,
+    prefix=settings.API_V1_PREFIX,
+)
+
+app.include_router(
+    payment_passport_router,
+    prefix=settings.API_V1_PREFIX,
+)
 
 
 @app.exception_handler(PayPauseException)

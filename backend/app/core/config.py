@@ -26,7 +26,9 @@ class Settings(BaseSettings):
     SUPABASE_ANON_KEY: str | None = None
     SUPABASE_SERVICE_ROLE_KEY: str | None = None
 
+    AI_PROVIDER: Literal["groq"] = "groq"
     AI_API_KEY: str | None = None
+    AI_REQUEST_TIMEOUT_SECONDS: float = 30.0
     AI_MODEL: str | None = None
 
     model_config = SettingsConfigDict(
