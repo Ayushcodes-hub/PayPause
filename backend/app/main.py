@@ -11,6 +11,7 @@ from app.core.config import settings
 from app.core.exceptions import PayPauseException
 from app.core.logging import setup_logging
 from app.core.middleware import request_middleware
+from app.core.supabase import get_supabase_admin_client
 from app.schemas.common import ErrorDetail, ErrorResponse
 
 
@@ -155,15 +156,41 @@ async def liveness():
 
 
 @app.get("/health/ready", tags=["System"])
-async def readiness():
+def readiness():
+    database_status = "available"
+
+    try:
+        get_supabase_admin_client().table("profiles").select("id").limit(1).execute()
+    except Exception:
+        logger.exception("Readiness database check failed")
+        database_status = "unavailable"
+
+    ai_provider_status = (
+        "configured"
+        if settings.AI_API_KEY and settings.AI_MODEL
+        else "not_configured"
+    )
+
+    checks = {
+        "application": "initialized",
+        "database": database_status,
+        "ai_provider": ai_provider_status,
+    }
+
+    if database_status != "available":
+        return JSONResponse(
+            status_code=503,
+            content={
+                "status": "not_ready",
+                "service": "paypause-api",
+                "checks": checks,
+            },
+        )
+
     return {
         "status": "ready",
         "service": "paypause-api",
-        "checks": {
-            "application": "initialized",
-            "database": "not_configured",
-            "ai_provider": "not_configured",
-        },
+        "checks": checks,
     }
 
 
