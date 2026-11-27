@@ -759,3 +759,32 @@ The repository uses feature branches to isolate contributors' work.
   Think Before Money Moves.<br/><br/>
   Built to make digital payment decisions more informed, explainable and cautious.
 </p>
+
+---
+
+# Integrated Backend Modules — Bhuvan Contribution
+
+The integrated backend also includes the following modules:
+
+| Module | API prefix | Main responsibility |
+|---|---|---|
+| Payment management | `/api/payments` | Payment records, refund lifecycle and payment history |
+| Subscription management | `/api/subscriptions` | Recurring payment tracking, renewal dates and commitments |
+| Recovery desk | `/api/recovery` | Payment disputes, incident tracking and complaint assistance |
+| Experiments | `/api/experiments` | Experiment scenarios, participant assignment and evaluation |
+| Flagsmith integration | Internal service | Feature flags and experiment variant evaluation |
+
+### Architecture
+
+The integrated project retains Ayush's main FastAPI application, Supabase authentication, PayGuard, BillSense and Payment Passport. Bhuvan's modules are included as additional backend capabilities.
+
+Bhuvan's current repository implementations are development in-memory adapters. Their data is not yet durable across application restarts and must be replaced with production persistence adapters before deployment.
+
+### Bhuvan implementation documentation
+
+- `docs/BHUVAN_IMPLEMENTATION_REPORT.md`
+- `docs/INTEGRATION_GUIDE.md`
+- `docs/FLAGS_EXPERIMENT.md`
+- `docs/PAYMENT_MANAGEMENT_SPECIFICATION.md`
+- `docs/RECOVERY_SPECIFICATION.md`
+

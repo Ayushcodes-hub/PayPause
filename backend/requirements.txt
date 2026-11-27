@@ -38,3 +38,5 @@ PyMuPDF==2.2
 rapidocr==3.10.0
 onnxruntime==1.32.0
 groq==1.7.0
+
+flagsmith==6.7.0

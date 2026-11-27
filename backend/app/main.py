@@ -17,6 +17,12 @@ from app.core.auth import AuthenticatedUser, get_current_user
 from app.api.v1.payguard import router as payguard_router
 from app.api.v1.billsense import router as billsense_router
 from app.api.v1.payment_passport import router as payment_passport_router
+from backend.app.api.payments import router as payments_router
+from backend.app.api.subscriptions import router as subscriptions_router
+from backend.app.api.recovery import router as recovery_router
+from backend.app.api.experiments import router as experiments_router
+from backend.app.core.dependencies import get_current_user as get_bhuvan_dev_user
+from backend.app.core.bhuvan_auth_bridge import get_bhuvan_supabase_user
 
 
 setup_logging()
@@ -65,6 +71,19 @@ app.include_router(
 app.include_router(
     payment_passport_router,
     prefix=settings.API_V1_PREFIX,
+)
+
+# Bhuvan modules: use verified Supabase identity instead of dev X-User-Id auth.
+app.dependency_overrides[get_bhuvan_dev_user] = get_bhuvan_supabase_user
+
+app.include_router(payments_router)
+app.include_router(subscriptions_router)
+app.include_router(recovery_router)
+
+# All experiment endpoints require a verified Supabase user.
+app.include_router(
+    experiments_router,
+    dependencies=[Depends(get_bhuvan_supabase_user)],
 )
 
 
