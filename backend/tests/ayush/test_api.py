@@ -3,6 +3,7 @@
 from fastapi.testclient import TestClient
 
 from app.main import app
+from app.core.config import settings
 
 
 client = TestClient(app)
@@ -52,7 +53,12 @@ def test_readiness_endpoint_reports_database_available(monkeypatch):
 
     assert checks["application"] == "initialized"
     assert checks["database"] == "available"
-    assert checks["ai_provider"] == "not_configured"
+    expected_ai_status = (
+        "configured"
+        if settings.AI_API_KEY and settings.AI_MODEL
+        else "not_configured"
+    )
+    assert checks["ai_provider"] == expected_ai_status
 
 
 def test_readiness_endpoint_reports_database_unavailable(monkeypatch):
