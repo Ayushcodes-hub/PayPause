@@ -1,370 +1,233 @@
+ 
+<h1 align="center">💸 PayPause</h1>
 
-# PayPause � Ayush Core Backend
+<h3 align="center">Think Before Money Moves.</h3>
 
 <p align="center">
-  <strong>Think Before Money Moves.</strong><br/>
-  An evidence-led payment safety and electricity-bill intelligence API for Indian consumers.
+  <strong>An intelligent financial safety and personal money-management platform for India.</strong>
+  <br />
+  Helping people understand payment risks, track financial commitments, analyse electricity bills, and take informed action when transactions go wrong.
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Python-Backend-3776AB?logo=python&logoColor=white" />
-  <img src="https://img.shields.io/badge/API-FastAPI-009688?logo=fastapi&logoColor=white" />
-  <img src="https://img.shields.io/badge/Database-Supabase-3FCF8E?logo=supabase&logoColor=white" />
-  <img src="https://img.shields.io/badge/Branch-Ayush%20Core%20Backend-8957E5" />
+  <a href="https://github.com/Ayushcodes-hub/PayPause">
+    <img src="https://img.shields.io/badge/Project-PayPause-172554?style=for-the-badge" alt="PayPause" />
+  </a>
+  <img src="https://img.shields.io/badge/Python-3.x-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
+  <img src="https://img.shields.io/badge/FastAPI-Backend-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" />
+  <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React" />
+  <img src="https://img.shields.io/badge/TypeScript-Frontend-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Supabase-Database%20%26%20Auth-3FCF8E?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase" />
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Architecture-Modular-blue?style=flat-square" alt="Modular Architecture" />
+  <img src="https://img.shields.io/badge/API-REST-orange?style=flat-square" alt="REST API" />
+  <img src="https://img.shields.io/badge/Testing-Pytest-0A9EDC?style=flat-square&logo=pytest&logoColor=white" alt="Pytest" />
+  <img src="https://img.shields.io/badge/Database-PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL" />
+  <img src="https://img.shields.io/badge/License-See%20Repository-lightgrey?style=flat-square" alt="License" />
+</p>
+
+<p align="center">
+  <a href="#-overview">Overview</a> ·
+  <a href="#-why-paypause">Why PayPause</a> ·
+  <a href="#-features">Features</a> ·
+  <a href="#-architecture">Architecture</a> ·
+  <a href="#-technology-stack">Technology</a> ·
+  <a href="#-installation--setup">Setup</a> ·
+  <a href="#-api-reference">APIs</a> ·
+  <a href="#-testing--quality-assurance">Testing</a> ·
+  <a href="#-roadmap">Roadmap</a>
 </p>
 
 ---
 
-## Table of Contents
+# 📌 Table of Contents
 
-1. [Overview](#overview)
-2. [Features](#features)
-3. [System Architecture](#system-architecture)
-4. [Technology Stack](#technology-stack)
-5. [Getting Started](#getting-started)
-6. [Environment Configuration](#environment-configuration)
-7. [Running the Backend](#running-the-backend)
-8. [API Reference](#api-reference)
-9. [PayGuard](#payguard)
-10. [BillSense](#billsense)
-11. [Payment Passport](#payment-passport)
-12. [Database Architecture](#database-architecture)
-13. [Security and Privacy](#security-and-privacy)
-14. [Testing](#testing)
-15. [Project Structure](#project-structure)
-16. [Current Scope and Limitations](#current-scope-and-limitations)
-17. [Development Workflow](#development-workflow)
-
----
-
-## Overview
-
-**PayPause** is designed to make digital payment decisions more informed, explainable and cautious.
-
-This branch delivers the core backend infrastructure for three major capabilities:
-
-| Module | Purpose |
-|---|---|
-| PayGuard | Identifies suspicious indicators in UPI IDs, payment URLs and QR codes. |
-| BillSense | Extracts, validates and analyzes electricity bills using OCR and document processing. |
-| Payment Passport | Maintains authenticated, user-specific payment safety assessment history. |
-
-The backend exposes versioned REST APIs through FastAPI and uses Supabase for authentication and persistent storage.
-
-### Core design principles
-
-- Evidence-driven risk analysis.
-- Explainable recommendations rather than unexplained scores.
-- Local document processing wherever possible.
-- Authentication and user-scoped data access.
-- Optional AI assistance without making AI a dependency for core functionality.
-- Structured APIs designed for frontend integration.
+1. [Overview](#-overview)
+2. [Why PayPause](#-why-paypause)
+3. [Project Vision and Objectives](#-project-vision-and-objectives)
+4. [Features and Modules](#-features-and-modules)
+   - [PayGuard](#1-payguard--digital-payment-safety)
+   - [BillSense](#2-billsense--electricity-bill-intelligence)
+   - [Payment Passport](#3-payment-passport--payment-safety-history)
+   - [Payment Management](#4-payment-management--financial-transaction-tracking)
+   - [Subscription Management](#5-subscription-management--recurring-expense-intelligence)
+   - [Recovery Desk](#6-recovery-desk--payment-dispute-assistance)
+   - [Experiments and Feature Management](#7-experiments--feature-management)
+5. [How PayPause Works](#-how-paypause-works)
+6. [System Architecture](#-system-architecture)
+7. [Technology Stack](#-technology-stack)
+8. [Repository Structure](#-repository-structure)
+9. [Installation and Setup](#-installation--setup)
+10. [Environment Configuration](#-environment-configuration)
+11. [Running the Application](#-running-the-application)
+12. [API Reference](#-api-reference)
+13. [Database and Persistence](#-database-and-persistence)
+14. [Authentication and Security](#-authentication-and-security)
+15. [Testing and Quality Assurance](#-testing-and-quality-assurance)
+16. [Production Configuration](#-production-configuration)
+17. [Known Limitations](#-known-limitations)
+18. [Future Roadmap](#-future-roadmap)
+19. [Development Workflow](#-development-workflow)
+20. [Contributing](#-contributing)
+21. [Project Documentation](#-project-documentation)
+22. [Disclaimer](#-disclaimer)
+23. [Project Information](#-project-information)
 
 ---
 
-## Features
+# 🌐 Overview
 
-### PayGuard � Payment Safety
+**PayPause** is a modular financial safety and personal money-management platform designed to help individuals make more informed decisions in an increasingly digital financial environment.
 
-- UPI ID structural validation.
-- Payment URL inspection.
-- Suspicious hostname and URL-pattern detection.
-- HTTPS and transport-security indicators.
-- QR image decoding.
-- UPI payment URI parsing.
-- Evidence-based risk scoring.
-- Severity classification.
-- Actionable safety recommendations.
-- Payment Passport assessment persistence.
+India's digital payment ecosystem has transformed how people pay, receive money, manage subscriptions and interact with financial services. However, convenience also brings new challenges: suspicious payment identifiers, deceptive QR codes, misleading payment URLs, complicated electricity bills, forgotten recurring expenses and difficult payment-dispute processes.
 
-### BillSense � Electricity Bill Intelligence
+PayPause brings multiple practical tools together in a single application.
 
-- PDF and image document processing.
-- Native PDF text extraction.
-- OCR fallback for scanned documents.
-- Electricity bill field extraction.
-- Provider identification.
-- Meter-reading validation.
-- Charge consistency checks.
-- Consumption analysis.
-- OCR confidence information.
-- Optional Groq-powered explanations.
+Instead of treating financial safety, payment tracking, bill analysis and dispute assistance as unrelated problems, PayPause approaches them as interconnected parts of everyday financial management.
 
-### Payment Passport � Assessment History
+The platform combines:
 
-- Authenticated assessment persistence.
-- User-specific assessment history.
-- Paginated assessment retrieval.
-- Individual assessment lookup.
-- Assessment deletion.
-- Supabase PostgreSQL integration.
-- Row-level security support.
+- A modern React and TypeScript frontend.
+- A Python and FastAPI backend.
+- Modular financial-analysis services.
+- Supabase authentication and PostgreSQL persistence.
+- OCR-based document processing.
+- Optional AI-powered explanations.
+- Feature flags and experimentation support.
+
+The central philosophy is simple:
+
+> **Pause. Understand. Verify. Then act.**
+
+PayPause is designed as a decision-support platform. It helps users organise information, identify potential warning signs and understand financial commitments. It does not directly initiate financial transactions or replace banks, UPI applications, electricity providers or official dispute-resolution mechanisms.
 
 ---
 
-## System Architecture
+# 💡 Why PayPause?
+
+Financial decisions frequently happen with incomplete information.
+
+Consider some everyday situations:
+
+| Situation | Common difficulty | PayPause module |
+|---|---|---|
+| An unfamiliar UPI ID requests payment | Recipient information may be difficult to assess | PayGuard |
+| Someone shares a payment QR code | The encoded payment destination may not be obvious | PayGuard |
+| A suspicious payment link arrives | URL structure and destination may be misleading | PayGuard |
+| An electricity bill suddenly increases | Charges and consumption may be difficult to understand | BillSense |
+| Multiple subscriptions renew every month | Recurring expenses can go unnoticed | Subscription Management |
+| A payment fails or becomes disputed | Information and evidence can become scattered | Recovery Desk |
+| A user wants to review earlier risk assessments | Previous checks may not be organised | Payment Passport |
+| Payment activity needs better organisation | Transaction records can be difficult to monitor | Payment Management |
+
+PayPause aims to reduce these information gaps through a unified workspace.
+
+## The core idea
+
+<details>
+<summary><strong>Explore the PayPause decision workflow</strong></summary>
 
 ```text
-                    CLIENT APPLICATION
-                           |
-                           |
-                    REST API REQUEST
-                           |
-                           v
-                 +--------------------+
-                 |     FASTAPI        |
-                 |   APPLICATION      |
-                 +--------------------+
-                           |
-             +-------------+-------------+
-             |             |             |
-             v             v             v
-         PAYGUARD       BILLSENSE    PAYMENT PASSPORT
-             |             |             |
-       +-----+-----+   +---+-------+     |
-       |     |     |   |     |     |     |
-       UPI  URL   QR   PDF   OCR  AI     |
-       |     |     |   |     |     |     |
-       +-----+-----+   +-----+-----+     |
-             |             |             |
-             v             v             v
-       RISK ENGINE     BILL ANALYSIS   SUPABASE
-             |             |          DATABASE
-             +-------------+
-                           |
-                           v
-                 STRUCTURED API RESPONSE
+                A FINANCIAL DECISION
+                         |
+                         v
+                IDENTIFY THE PROBLEM
+                         |
+          +--------------+--------------+
+          |              |              |
+          v              v              v
+     PAYMENT RISK     BILL ANALYSIS   MONEY TRACKING
+          |              |              |
+          v              v              v
+       PAYGUARD        BILLSENSE      FINANCIAL
+                                      MANAGEMENT
+          |              |              |
+          +--------------+--------------+
+                         |
+                         v
+                 STRUCTURED INSIGHTS
+                         |
+                         v
+                 INFORMED DECISION
+                         |
+              +----------+----------+
+              |                     |
+              v                     v
+        PROCEED WITH CARE      INVESTIGATE /
+                               TAKE ACTION
 ```
 
-### Request lifecycle
-
-1. Client submits a request to the FastAPI application.
-2. Protected endpoints validate the Supabase access token.
-3. The relevant service performs analysis and validation.
-4. The application generates a structured response.
-5. PayGuard attempts to persist its assessment in Payment Passport.
-6. The client receives the result and applicable recommendations.
+</details>
 
 ---
 
-## Technology Stack
+# 🎯 Project Vision and Objectives
 
-| Category | Technology |
+PayPause is built around six objectives.
+
+| Objective | Implementation approach |
 |---|---|
-| Programming Language | Python |
-| Backend Framework | FastAPI |
-| ASGI Server | Uvicorn |
-| Data Validation | Pydantic |
-| Authentication | Supabase Auth |
-| Database | Supabase PostgreSQL |
-| Database SDK | Supabase Python SDK |
-| QR Decoding | ZXing-C++ |
-| Image Processing | Pillow |
-| PDF Processing | PyMuPDF |
-| OCR Engine | RapidOCR |
-| Inference Runtime | ONNX Runtime |
-| AI Integration | Groq |
-| HTTP Client | HTTPX |
-| Testing | Pytest |
-| Async Testing | pytest-asyncio |
+| Digital payment safety | UPI, URL and QR inspection |
+| Financial visibility | Payment records and recurring-cost tracking |
+| Understandable utility bills | OCR, extraction and consumption analysis |
+| Better dispute organisation | Incident records and complaint drafts |
+| Personalised financial workspace | Authentication and user-scoped records |
+| Extensible software architecture | Modular APIs, services and repository interfaces |
+
+## Engineering objectives
+
+The project also demonstrates several software-engineering principles:
+
+- Separation of concerns.
+- Modular application design.
+- REST API development.
+- Typed frontend development.
+- Authentication and access control.
+- Repository abstraction.
+- Database-backed persistence.
+- Automated testing.
+- External service integration.
+- Development and production configuration separation.
 
 ---
 
-## Getting Started
+# 🚀 Features and Modules
 
-### Prerequisites
+PayPause is organised into specialised modules. Each module addresses a different part of the user's financial workflow.
 
-Install the following:
+## 1. PayGuard — Digital Payment Safety
 
-- Python
-- Git
-- A Supabase project
-- A Groq API key if optional AI explanations are required
+**PayGuard helps users inspect payment-related information and identify suspicious indicators before proceeding.**
 
-### 1. Clone the repository
+Digital payment scams may involve misleading UPI identifiers, QR codes, payment links and deceptive destinations.
 
-```powershell
-git clone https://github.com/Ayushcodes-hub/PayPause.git
-cd PayPause
-```
-
-### 2. Switch to Ayush's branch
-
-```powershell
-git switch feature/ayush-core-backend
-```
-
-### 3. Create a virtual environment
-
-```powershell
-python -m venv .venv
-```
-
-### 4. Activate the environment
-
-```powershell
-.\.venv\Scripts\Activate.ps1
-```
-
-### 5. Install dependencies
-
-```powershell
-python -m pip install --upgrade pip
-python -m pip install -r backend\requirements.txt
-```
-
----
-
-## Environment Configuration
-
-Create a `.env` file inside the `backend` directory.
-
-Example configuration:
-
-```dotenv
-APP_NAME=PayPause API
-APP_VERSION=0.2.0
-ENVIRONMENT=development
-DEBUG=true
-
-API_V1_PREFIX=/api/v1
-HOST=127.0.0.1
-PORT=8000
-
-CORS_ORIGINS=["http://localhost:5173"]
-LOG_LEVEL=INFO
-
-SUPABASE_URL=https://YOUR_PROJECT.supabase.co
-SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
-SUPABASE_SERVICE_ROLE_KEY=YOUR_SUPABASE_SERVICE_ROLE_KEY
-
-AI_PROVIDER=groq
-AI_API_KEY=
-AI_MODEL=
-AI_REQUEST_TIMEOUT_SECONDS=30
-```
-
-### Environment variables
-
-| Variable | Description |
-|---|---|
-| SUPABASE_URL | Supabase project URL |
-| SUPABASE_ANON_KEY | Supabase public/anonymous key |
-| SUPABASE_SERVICE_ROLE_KEY | Backend-only administrative database key |
-| AI_PROVIDER | Optional AI provider selection |
-| AI_API_KEY | Optional Groq API key |
-| AI_MODEL | Configured Groq model |
-| AI_REQUEST_TIMEOUT_SECONDS | AI request timeout |
-| CORS_ORIGINS | Allowed frontend origins |
-| ENVIRONMENT | Application environment |
-| DEBUG | Development debugging mode |
-
-**Important:** Never commit `.env`, expose the service-role key in frontend code, or publish API credentials.
-
-AI configuration is optional. Core PayGuard and deterministic BillSense processing can operate without Groq.
-
----
-
-## Running the Backend
-
-Run the following commands from the repository root:
-
-```powershell
-cd backend
-python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
-```
-
-### Available documentation
-
-| Resource | URL |
-|---|---|
-| API Root | http://127.0.0.1:8000/ |
-| Swagger UI | http://127.0.0.1:8000/docs |
-| ReDoc | http://127.0.0.1:8000/redoc |
-| OpenAPI Schema | http://127.0.0.1:8000/openapi.json |
-| Health | http://127.0.0.1:8000/health |
-| Readiness | http://127.0.0.1:8000/health/ready |
-
----
-
-## API Reference
-
-All versioned endpoints are under:
-
-```text
-/api/v1
-```
-
-Protected endpoints require a valid Supabase access token.
-
-```http
-Authorization: Bearer <SUPABASE_ACCESS_TOKEN>
-```
-
-### General endpoints
-
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/` | Application information |
-| GET | `/health` | Health check |
-| GET | `/health/live` | Liveness check |
-| GET | `/health/ready` | Readiness check |
-| GET | `/api/v1/health` | Versioned health check |
-| GET | `/api/v1/auth/me` | Authenticated user information |
-
-### PayGuard endpoints
-
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/api/v1/payguard/assess` | UPI, URL or combined assessment |
-| POST | `/api/v1/payguard/assess-qr` | QR image assessment |
-
-### BillSense endpoints
-
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/api/v1/billsense/analyze` | Electricity bill analysis |
-
-### Payment Passport endpoints
-
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/api/v1/payment-passport/assessments` | List assessments |
-| GET | `/api/v1/payment-passport/assessments/{assessment_id}` | Retrieve assessment |
-| DELETE | `/api/v1/payment-passport/assessments/{assessment_id}` | Delete assessment |
-
----
-
-## PayGuard
-
-PayGuard is the payment safety analysis engine.
-
-Its purpose is to identify suspicious indicators before a user proceeds with a digital payment.
+PayGuard analyses the structure of supported inputs and returns a structured risk assessment.
 
 ### Supported inputs
 
-- UPI identifiers.
+- UPI IDs.
 - Payment URLs.
-- Combined UPI and URL submissions.
+- Combined UPI and URL assessments.
 - Payment QR images.
 
 ### UPI analysis
 
-The UPI analyzer examines:
+The UPI analysis service examines characteristics such as:
 
-- Identifier structure.
-- Structural validity.
-- Suspicious keywords.
+- Identifier structure and format.
+- Suspicious keywords and patterns.
 - Unusual separators and punctuation.
-- Evidence severity and score contribution.
+- Potentially misleading identifier characteristics.
+- Other configured risk indicators.
 
 ### URL analysis
 
-The URL analyzer evaluates:
+The URL analysis engine evaluates characteristics such as:
 
-- URL structure.
-- Hostname validity.
-- HTTPS versus HTTP.
+- URL and hostname structure.
+- HTTPS versus HTTP indicators.
 - Embedded credentials.
 - IP-address-based destinations.
 - Punycode indicators.
@@ -372,116 +235,128 @@ The URL analyzer evaluates:
 - Unusual ports.
 - Suspicious hostname patterns.
 - Deep subdomains.
+- Other structural anomalies.
 
-The current URL analysis is local and heuristic-based. It does not visit submitted URLs, follow redirects, resolve DNS or perform live reputation checks.
+### QR code analysis
 
-### QR analysis
+PayGuard supports a processing pipeline for payment QR images.
 
-The QR processing pipeline:
+```text
+             QR IMAGE UPLOAD
+                    |
+                    v
+             IMAGE VALIDATION
+                    |
+                    v
+              QR DECODING
+                    |
+                    v
+           EXTRACTED QR CONTENT
+                    |
+          +---------+---------+
+          |                   |
+          v                   v
+       UPI URI             PAYMENT URL
+          |                   |
+          v                   v
+      UPI PARSER          URL ANALYSER
+          |                   |
+          +---------+---------+
+                    |
+                    v
+             RISK ASSESSMENT
+                    |
+                    v
+             STRUCTURED RESULT
+```
 
-1. Accepts a supported image upload.
-2. Validates the image.
-3. Decodes the QR locally.
-4. Parses supported UPI payment URIs or URLs.
-5. Passes extracted information to the relevant analyzer.
-6. Returns a structured risk assessment.
+Supported image formats include PNG, JPEG and WEBP.
 
-Supported image formats:
+### Risk assessment
 
-- PNG
-- JPEG
-- WEBP
-
-### Risk scoring
-
-Risk evidence is aggregated into a bounded score from 0 to 100.
+PayGuard produces a bounded heuristic risk score and a severity classification.
 
 | Score | Classification |
 |---:|---|
-| 0�19 | Low |
-| 20�39 | Moderate |
-| 40�69 | High |
-| 70�100 | Critical |
+| 0–19 | Low |
+| 20–39 | Moderate |
+| 40–69 | High |
+| 70–100 | Critical |
 
-The response includes:
+An assessment may contain:
 
 - Risk score.
-- Risk classification.
-- Evidence.
-- Severity.
+- Severity classification.
+- Detected indicators.
+- Evidence descriptions.
+- Evidence severity.
 - Recommendations.
 - Assessment identifier.
-- Coverage and limitations.
-- Safety disclaimer.
+- Coverage information and limitations.
 
-The risk score is a heuristic indicator, not a probability of fraud or a guarantee of payment safety.
+**Important:** A heuristic risk score is not a probability of fraud. It is not a bank verification result and cannot guarantee that a recipient or payment destination is legitimate.
 
 ---
 
-## BillSense
+## 2. BillSense — Electricity Bill Intelligence
 
-BillSense transforms electricity bills into structured information.
+**BillSense transforms supported electricity-bill documents into structured information that users can inspect and understand.**
 
-It combines PDF extraction, OCR, validation, consumption calculations and optional AI explanations.
+Electricity bills may contain multiple charges, meter readings, billing periods, taxes and other details. These can be difficult to interpret without manually examining the entire document.
 
-### Supported document types
+BillSense combines document processing, OCR, field extraction, validation and consumption analysis.
 
-- PDF
-- PNG
-- JPEG
-- WEBP
+### Supported documents
 
-### Document processing safeguards
+- PDF documents.
+- PNG images.
+- JPEG images.
+- WEBP images.
 
-| Constraint | Limit |
-|---|---:|
-| Maximum upload size | 10 MB |
-| Maximum PDF pages | 10 |
-| Maximum image dimensions | 20 megapixels |
-| Password-protected PDFs | Unsupported |
-
-### Extraction pipeline
+### Document-processing architecture
 
 ```text
-             ELECTRICITY BILL
-                     |
-                     v
-              DOCUMENT VALIDATION
-                     |
-                     v
-              DOCUMENT DETECTION
-                     |
-             +-------+-------+
-             |               |
-             v               v
-        NATIVE PDF       IMAGE / SCANNED
-        EXTRACTION          DOCUMENT
-             |               |
-             |               v
-             |           RAPIDOCR
-             |               |
-             +-------+-------+
-                     |
-                     v
-               TEXT PARSING
-                     |
-                     v
-              FIELD EXTRACTION
-                     |
-                     v
-              BILL VALIDATION
-                     |
-                     v
-             CONSUMPTION ANALYSIS
-                     |
-                     v
-             OPTIONAL GROQ INSIGHTS
-                     |
-                     v
-              STRUCTURED RESPONSE
+                  ELECTRICITY BILL
+                          |
+                          v
+                  DOCUMENT VALIDATION
+                          |
+                          v
+                   DOCUMENT DETECTION
+                          |
+                 +--------+--------+
+                 |                 |
+                 v                 v
+            NATIVE PDF        SCANNED / IMAGE
+            EXTRACTION          DOCUMENT
+                 |                 |
+                 |                 v
+                 |              RAPIDOCR
+                 |                 |
+                 +--------+--------+
+                          |
+                          v
+                     TEXT PARSING
+                          |
+                          v
+                    FIELD EXTRACTION
+                          |
+                          v
+                    BILL VALIDATION
+                          |
+                          v
+                  CONSUMPTION ANALYSIS
+                          |
+                          v
+                   OPTIONAL GROQ AI
+                          |
+                          v
+                  STRUCTURED RESPONSE
 ```
 
 ### Extracted information
+
+Depending on document quality and available fields, BillSense may extract:
 
 - Electricity provider.
 - Consumer name.
@@ -495,296 +370,637 @@ It combines PDF extraction, OCR, validation, consumption calculations and option
 - Units consumed.
 - Energy charges.
 - Fixed charges.
-- Taxes.
-- Late fee.
+- Taxes and late fees.
 - Total payable amount.
 
-### Supported provider patterns
+### Validation and analysis
 
-The parser includes patterns for Indian electricity utilities such as:
+BillSense performs structured checks such as:
 
-- BESCOM
-- MESCOM
-- HESCOM
-- GESCOM
-- CESC
-- TANGEDCO
-- MSEDCL
-- KSEB
-
-### Validation
-
-BillSense checks:
-
-- Required field presence.
-- Numeric field validity.
-- Negative values.
+- Required-field validation.
+- Numeric-value validation.
+- Negative-value checks.
 - Meter-reading consistency.
 - Charge arithmetic consistency.
-- Extraction confidence where available.
+- OCR confidence analysis where available.
+- Billing-period duration analysis.
+- Average daily consumption calculation.
+- Consumption observations and warnings.
 
-### Consumption analysis
+### Provider coverage
 
-The service derives available consumption metrics, including:
+The parser includes patterns for selected Indian electricity utilities, including:
 
-- Units consumed.
-- Billing-period duration.
-- Average daily consumption.
-- Consumption observations.
-- Relevant validation warnings.
+- BESCOM.
+- MESCOM.
+- HESCOM.
+- GESCOM.
+- CESC.
+- TANGEDCO.
+- MSEDCL.
+- KSEB.
+
+Provider recognition and field extraction depend on document format and quality. This list does not imply that every bill layout from every provider is supported.
 
 ### Optional AI explanations
 
-Groq provides an optional explanation layer.
+Groq integration provides an optional AI explanation layer.
 
-The AI provider does not replace deterministic extraction, validation or calculations. If the AI service is unavailable or not configured, the API can still return its core analysis.
+The intended division of responsibilities is:
+
+| Component | Responsibility |
+|---|---|
+| OCR | Extract text from supported documents |
+| Parser | Identify relevant bill fields |
+| Validator | Check extracted information |
+| Consumption analyser | Calculate and interpret consumption |
+| Groq | Optional natural-language explanations |
+
+AI is supplementary. It does not replace deterministic calculations or document validation.
+
+### Document safeguards
+
+Current processing safeguards include:
+
+- Maximum upload size: 10 MB.
+- Maximum PDF length: 10 pages.
+- Maximum image dimensions: 20 megapixels.
+- Password-protected PDFs are unsupported.
 
 ---
 
-## Payment Passport
+## 3. Payment Passport — Payment Safety History
 
-Payment Passport stores structured PayGuard assessment history for authenticated users.
+Payment Passport maintains structured records of PayGuard assessments for authenticated users.
+
+Instead of treating every risk assessment as a one-time operation, Payment Passport provides a way to revisit previous assessments.
 
 ### Capabilities
 
-- Assessment persistence.
-- User-specific history.
-- Paginated listing.
-- Individual assessment retrieval.
-- Assessment deletion.
-- Supabase PostgreSQL integration.
+- Save assessment records.
+- Retrieve user-specific assessment history.
+- Paginate assessment results.
+- Retrieve an individual assessment.
+- Delete an assessment.
+- Persist records through Supabase PostgreSQL.
+- Scope records to the authenticated user.
 
-### Data design
+### Why it matters
 
-The persistence layer stores the structured assessment rather than the original submitted UPI ID or payment URL.
+A payment-safety assessment is more useful when users can review it later.
 
-Records are associated with the authenticated user's Supabase identity.
+Payment Passport provides historical context and helps users organise previous checks.
+
+It is a record of safety assessments, not a bank account, payment wallet or complete banking transaction ledger.
 
 ---
 
-## Database Architecture
+## 4. Payment Management — Financial Transaction Tracking
 
-Payment Passport uses Supabase PostgreSQL.
+Payment Management provides APIs for organising payment records and monitoring refund activity.
 
-Migration:
+### Capabilities
+
+- Create payment records.
+- Retrieve payment history.
+- Filter payments by supported fields.
+- Paginate payment retrieval.
+- Retrieve individual payment records.
+- Update permitted payment information.
+- Track refund activity.
+- Generate payment summaries.
+- Perform duplicate-payment checks.
+
+### Supported filtering concepts
+
+Depending on the endpoint and request parameters, filtering can include:
+
+- Transaction reference.
+- Date.
+- Amount.
+- Category.
+- Merchant.
+- Payment provider.
+- Payment status.
+
+### Intended benefits
+
+- Better visibility into recorded financial activity.
+- Easier organisation of payment information.
+- Improved refund tracking.
+- Identification of potentially duplicated records.
+- A foundation for more advanced personal-finance analytics.
+
+The module records and manages payment information. It does not initiate bank transfers, debit accounts or execute refunds.
+
+---
+
+## 5. Subscription Management — Recurring Expense Intelligence
+
+Recurring financial commitments can become difficult to monitor when users subscribe to multiple services.
+
+Subscription Management provides structured records and APIs for organising recurring expenses.
+
+### Capabilities
+
+- Create subscription records.
+- List subscriptions.
+- Retrieve individual subscriptions.
+- Filter subscription information.
+- Update subscription details.
+- Pause subscriptions.
+- Resume subscriptions.
+- Delete subscription records.
+- Calculate monthly-equivalent costs.
+- Generate recurring-expense summaries.
+- Monitor renewal information.
+
+### Monthly-equivalent calculation
+
+Different subscriptions may use different billing frequencies.
+
+PayPause normalises recurring costs into monthly equivalents to make comparisons easier.
+
+Examples of the intended calculation:
+
+| Billing frequency | Monthly equivalent |
+|---|---|
+| Weekly | Amount × 52 ÷ 12 |
+| Monthly | Amount |
+| Quarterly | Amount ÷ 3 |
+| Yearly | Amount ÷ 12 |
+
+This helps users compare recurring commitments on a common monthly basis.
+
+---
+
+## 6. Recovery Desk — Payment Dispute Assistance
+
+Recovery Desk provides a structured workflow for recording payment incidents and organising follow-up information.
+
+When a payment becomes disputed or appears unauthorised, users may need to organise transaction information, evidence and complaint details.
+
+Recovery Desk is designed to make that process more structured.
+
+### Capabilities
+
+- Report payment incidents.
+- Retrieve incident records.
+- List incidents with supported filters.
+- Paginate incident history.
+- Update incident information.
+- Maintain incident status and timelines.
+- Manage evidence references.
+- Remove individual evidence items.
+- Generate structured complaint drafts.
+- Organise follow-up information.
+
+### Example incident workflow
 
 ```text
-supabase/migrations/002_payment_passport.sql
+              PAYMENT INCIDENT
+                     |
+                     v
+              CREATE INCIDENT
+                     |
+                     v
+              RECORD DETAILS
+                     |
+                     v
+              ADD EVIDENCE
+                     |
+                     v
+             REVIEW INFORMATION
+                     |
+                     v
+            GENERATE COMPLAINT DRAFT
+                     |
+                     v
+            USER REVIEWS THE DRAFT
+                     |
+                     v
+           APPROPRIATE OFFICIAL CHANNEL
 ```
 
-Table:
+Complaint drafts are intended to help users organise information for appropriate official channels.
+
+Recovery Desk does not automatically submit complaints, contact banks, reverse payments or guarantee recovery of funds.
+
+---
+
+## 7. Experiments and Feature Management
+
+PayPause includes an experimentation module for controlled scenario assignment and evaluation.
+
+This provides a foundation for evaluating different application experiences and recording structured experiment activity.
+
+### Capabilities
+
+- Retrieve public experiment scenarios.
+- Assign experiment variants.
+- Maintain stable experiment assignments.
+- Submit scenario attempts.
+- Record experiment events.
+- Evaluate experiment results.
+- Restrict aggregate experiment telemetry to configured administrators.
+
+### Flagsmith integration
+
+Flagsmith provides server-side feature-flag and variant evaluation.
+
+The integration supports controlled feature activation and experimentation.
+
+A deterministic fallback is available when the Flagsmith environment key is not configured.
+
+This makes it possible to develop and test the application without making the external feature-flag service mandatory for every development run.
+
+---
+
+# 🔄 How PayPause Works
+
+At a high level, PayPause follows a request-processing lifecycle.
 
 ```text
-public.payment_passport_assessments
+                  USER INTERACTION
+                         |
+                         v
+                  REACT FRONTEND
+                         |
+                         v
+                  REQUEST VALIDATION
+                         |
+                         v
+                    FASTAPI ROUTE
+                         |
+                         v
+                 AUTHENTICATION CONTEXT
+                         |
+                         v
+                  APPLICATION SERVICE
+                         |
+                         v
+                  BUSINESS LOGIC
+                         |
+                         v
+                  REPOSITORY LAYER
+                         |
+                +--------+--------+
+                |                 |
+                v                 v
+          DEVELOPMENT         PRODUCTION
+          REPOSITORY          REPOSITORY
+                |                 |
+                v                 v
+           IN-MEMORY          SUPABASE
+                              POSTGRESQL
+                |                 |
+                +--------+--------+
+                         |
+                         v
+                 STRUCTURED RESPONSE
+                         |
+                         v
+                  REACT FRONTEND
+                         |
+                         v
+                    USER RESULT
 ```
 
-The migration establishes:
+## Request lifecycle
 
-- UUID-based record identification.
-- Authenticated user association.
-- Assessment identifier.
-- Risk score and risk level.
-- Input type.
-- Structured JSON assessment.
-- Creation timestamp.
-- User and assessment uniqueness.
-- User-scoped indexes.
-- Row-level security policies.
+1. The user interacts with the frontend.
+2. The frontend prepares an API request.
+3. The backend receives the request through a FastAPI route.
+4. Request data is validated against the relevant schema.
+5. Authentication context is resolved for protected operations.
+6. The appropriate application service executes the business workflow.
+7. The repository layer retrieves or persists information.
+8. The API returns a structured response.
+9. The frontend presents the result.
 
-The backend administrative client uses the service-role credential. This credential must remain server-side.
+## Separation of responsibilities
 
-The API verifies the bearer token and derives the user identity from Supabase Auth rather than trusting a client-supplied user ID.
+The project separates the following concerns:
+
+| Component | Main responsibility |
+|---|---|
+| Frontend | Interface and user interaction |
+| API routes | HTTP request and response handling |
+| Schemas | Input and output validation |
+| Services | Business logic and workflows |
+| Repository interfaces | Persistence contracts |
+| Development repositories | In-memory data implementations |
+| Production repositories | Supabase-backed persistence |
+| Integrations | External AI and feature-flag services |
 
 ---
 
-## Security and Privacy
+# 🏗️ System Architecture
 
-Security considerations include:
+PayPause uses a modular full-stack architecture.
 
-- Supabase bearer-token verification.
-- Authenticated access to protected endpoints.
-- User-scoped Payment Passport operations.
-- Server-only service-role credentials.
-- Local URL inspection without visiting submitted URLs.
-- Local QR decoding.
-- QR payloads are not returned to the client.
-- File type and size validation.
-- PDF page and image-dimension limits.
-- Optional AI processing separated from deterministic analysis.
-- Structured request logging and error handling.
-
-### Important disclaimer
-
-PayPause is a decision-support tool. It does not authenticate a payee, guarantee that a payment is safe, prove that a transaction is fraudulent, initiate or reverse payments, or replace official bank, UPI-provider or electricity-utility channels.
-
-Users should independently verify recipient details and important bill information.
-
----
-
-## Testing
-
-The backend test suite uses Pytest.
-
-Run all tests from the backend directory:
-
-```powershell
-cd backend
-python -m pytest tests -q
-```
-
-Run Ayush's API tests:
-
-```powershell
-python -m pytest tests\ayush\test_api.py -q
-```
-
-Run syntax checks from the repository root:
-
-```powershell
-python -m compileall -q backend\app backend\tests
-```
-
-### Latest recorded test result
+## High-level system diagram
 
 ```text
-180 passed
-3 warnings
+                         ┌───────────────────────┐
+                         │         USER          │
+                         └───────────┬───────────┘
+                                     |
+                                     v
+                         ┌───────────────────────┐
+                         │     REACT 19 APP      │
+                         │  TypeScript + Vite    │
+                         └───────────┬───────────┘
+                                     |
+                                  REST API
+                                     |
+                                     v
+                         ┌───────────────────────┐
+                         │       FASTAPI         │
+                         │    APPLICATION API    │
+                         └───────────┬───────────┘
+                                     |
+              ┌──────────────────────┼─────────────────────┐
+              |                      |                     |
+              v                      v                     v
+        ┌────────────┐        ┌────────────┐        ┌────────────┐
+        │  PAYGUARD  │        │  BILLSENSE │        │  PAYMENT   │
+        │            │        │            │        │  PASSPORT  │
+        └────────────┘        └────────────┘        └────────────┘
+              |                      |                     |
+              └──────────────────────┼─────────────────────┘
+                                     |
+              ┌──────────────────────┼─────────────────────┐
+              |                      |                     |
+              v                      v                     v
+        ┌────────────┐        ┌────────────┐        ┌────────────┐
+        │  PAYMENTS  │        │SUBSCRIPTIONS│       │  RECOVERY  │
+        │ MANAGEMENT │        │ MANAGEMENT │        │    DESK    │
+        └────────────┘        └────────────┘        └────────────┘
+                                     |
+                                     v
+                         ┌───────────────────────┐
+                         │   SERVICE LAYER       │
+                         │   BUSINESS LOGIC      │
+                         └───────────┬───────────┘
+                                     |
+                                     v
+                         ┌───────────────────────┐
+                         │  REPOSITORY INTERFACE │
+                         └───────────┬───────────┘
+                                     |
+                        ┌────────────┴────────────┐
+                        |                         |
+                        v                         v
+              ┌──────────────────┐      ┌──────────────────┐
+              │   DEVELOPMENT    │      │   PRODUCTION     │
+              │ IN-MEMORY DATA   │      │ SUPABASE ADAPTERS│
+              └──────────────────┘      └────────┬─────────┘
+                                                 |
+                                                 v
+                                      ┌─────────────────────┐
+                                      │ SUPABASE            │
+                                      │ AUTH + POSTGRESQL   │
+                                      └─────────────────────┘
+
+                       SUPPORTING INTEGRATIONS
+                       ├── Groq AI
+                       └── Flagsmith
 ```
 
-The full backend test suite completed successfully in approximately 20.54 seconds during the recorded verification.
+## Backend architecture
 
-The warnings were dependency deprecation notices, not test failures.
+The backend is organised into distinct layers.
 
-Tests include API, PayGuard, QR processing, BillSense, AI-provider and Payment Passport coverage.
+### API layer
 
-Automated tests do not imply that every live external integration or deployment environment is configured correctly.
+Responsible for:
+
+- Defining REST endpoints.
+- Receiving HTTP requests.
+- Validating incoming data.
+- Resolving dependencies.
+- Returning structured responses.
+
+### Schema layer
+
+Uses Pydantic models to define and validate structured request and response data.
+
+### Service layer
+
+Contains application-specific business logic.
+
+Examples include:
+
+- Payment-risk analysis.
+- Bill parsing and validation.
+- Consumption analysis.
+- Subscription calculations.
+- Recovery workflows.
+- Experiment assignment and evaluation.
+
+### Repository layer
+
+Separates business logic from the persistence implementation.
+
+PayPause contains:
+
+- Repository interfaces.
+- Development in-memory repositories.
+- Production Supabase-backed repositories.
+
+This design makes it possible to use different persistence implementations without requiring every service to know the details of the database.
+
+## Development and production separation
+
+| Area | Development and testing | Production configuration |
+|---|---|---|
+| Persistence | In-memory repositories where configured | Supabase-backed repositories |
+| Duplicate analysis | Development implementation | Production wrapper implementation |
+| Scenario validation | Development implementation | Production wrapper implementation |
+| Database | No durable storage for in-memory records | Supabase PostgreSQL |
+| Configuration | Development environment | Production environment |
+| External integrations | Optional | Configured as required |
+
+The production service wrappers currently reuse deterministic development logic. They should not be interpreted as independent machine-learning fraud-detection models.
 
 ---
 
-## Project Structure
+# 🧰 Technology Stack
 
-The following is a high-level map of the Ayush backend components:
+PayPause combines frontend engineering, backend development, document processing, database integration and external services.
+
+## Frontend technologies
+
+| Technology | Role |
+|---|---|
+| React 19 | Component-based user interface |
+| TypeScript | Static typing and maintainability |
+| Vite | Development server and production bundling |
+| React Router | Client-side navigation |
+| Supabase JavaScript SDK | Authentication and session integration |
+| TanStack React Query | Server-state and data-fetching support |
+| Zustand | Client-side state management |
+| React Hook Form | Form management |
+| Zod | Schema validation |
+| Radix UI | Accessible interface primitives |
+| Lucide React | Icon system |
+| Motion | Interface animation |
+| GSAP | Animation tooling |
+| Three.js | 3D graphics |
+| React Three Fiber / Drei | React-based 3D integration |
+| ECharts | Data visualisation |
+| PixiJS | 2D rendering |
+| Oxlint | Frontend linting |
+| Vitest and Testing Library | Frontend testing dependencies |
+
+The package manifest includes a broader set of UI and development dependencies; actual use varies by component and module.
+
+## Backend technologies
+
+| Technology | Role |
+|---|---|
+| Python | Backend programming language |
+| FastAPI | REST API framework |
+| Uvicorn | ASGI application server |
+| Pydantic | Request validation and settings |
+| HTTPX | HTTP client |
+| python-dotenv | Environment configuration |
+| Pytest | Automated testing |
+| pytest-asyncio | Asynchronous test support |
+
+## AI and document processing
+
+| Technology | Role |
+|---|---|
+| Groq | Optional AI-powered explanations |
+| RapidOCR | Optical character recognition |
+| ONNX Runtime | OCR inference runtime |
+| PyMuPDF | PDF processing and text extraction |
+| Pillow | Image processing |
+| ZXing-C++ | QR code decoding |
+
+## Database and integrations
+
+| Technology | Role |
+|---|---|
+| Supabase Auth | User authentication |
+| Supabase PostgreSQL | Relational data persistence |
+| Supabase Python SDK | Backend database integration |
+| Supabase JavaScript SDK | Frontend authentication integration |
+| Flagsmith | Feature flags and experimentation |
+
+## Development and engineering tools
+
+| Technology | Role |
+|---|---|
+| Git | Version control |
+| GitHub | Repository hosting and collaboration |
+| npm | Frontend package management |
+| Python virtual environments | Dependency isolation |
+| TypeScript compiler | Static type checking |
+| Vite | Frontend production build |
+| Oxlint | Static linting |
+| Pytest | Backend test automation |
+
+---
+
+# 📁 Repository Structure
+
+The repository is organised to keep frontend, backend, tests, documentation and database migrations separate.
 
 ```text
 PayPause/
-�
-+-- backend/
-�   +-- app/
-�   �   +-- api/
-�   �   �   +-- v1/
-�   �   �       +-- payguard.py
-�   �   �       +-- billsense.py
-�   �   �       +-- payment_passport.py
-�   �   �
-�   �   +-- core/
-�   �   �   +-- auth.py
-�   �   �   +-- config.py
-�   �   �   +-- middleware.py
-�   �   �   +-- supabase.py
-�   �   �
-�   �   +-- repositories/
-�   �   �   +-- payment_passport.py
-�   �   �
-�   �   +-- services/
-�   �   �   +-- payguard/
-�   �   �   +-- billsense/
-�   �   �   +-- ai/
-�   �   �
-�   �   +-- main.py
-�   �
-�   +-- tests/
-�   �   +-- ayush/
-�   �
-�   +-- requirements.txt
-�
-+-- supabase/
-    +-- migrations/
-        +-- 002_payment_passport.sql
+│
+├── backend/
+│   ├── app/
+│   │   ├── api/
+│   │   │   ├── v1/
+│   │   │   │   ├── billsense.py
+│   │   │   │   ├── payguard.py
+│   │   │   │   └── payment_passport.py
+│   │   │   ├── experiments.py
+│   │   │   ├── payments.py
+│   │   │   ├── recovery.py
+│   │   │   └── subscriptions.py
+│   │   │
+│   │   ├── core/
+│   │   │   ├── auth.py
+│   │   │   ├── bhuvan_auth_bridge.py
+│   │   │   ├── config.py
+│   │   │   ├── dependencies.py
+│   │   │   ├── exceptions.py
+│   │   │   ├── logging.py
+│   │   │   ├── middleware.py
+│   │   │   ├── security.py
+│   │   │   └── supabase.py
+│   │   │
+│   │   ├── integrations/
+│   │   │   └── flagsmith/
+│   │   │
+│   │   ├── repositories/
+│   │   │   ├── development/
+│   │   │   ├── interfaces/
+│   │   │   └── production/
+│   │   │
+│   │   ├── schemas/
+│   │   ├── services/
+│   │   │   ├── ai/
+│   │   │   ├── billsense/
+│   │   │   ├── experiments/
+│   │   │   ├── payguard/
+│   │   │   ├── payments/
+│   │   │   ├── recovery/
+│   │   │   └── subscriptions/
+│   │   │
+│   │   ├── dev_main.py
+│   │   └── main.py
+│   │
+│   ├── tests/
+│   │   ├── ayush/
+│   │   └── bhuvan/
+│   │
+│   └── requirements.txt
+│
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── assets/
+│   │   ├── components/
+│   │   ├── lib/
+│   │   │   ├── api.ts
+│   │   │   └── supabase.ts
+│   │   ├── App.tsx
+│   │   ├── App.css
+│   │   ├── index.css
+│   │   └── main.tsx
+│   ├── package.json
+│   ├── package-lock.json
+│   └── vite.config.ts
+│
+├── docs/
+│   ├── BHUVAN_IMPLEMENTATION_REPORT.md
+│   ├── FLAGS_EXPERIMENT.md
+│   ├── INTEGRATION_GUIDE.md
+│   ├── PAYMENT_MANAGEMENT_SPECIFICATION.md
+│   └── RECOVERY_SPECIFICATION.md
+│
+├── supabase/
+│   └── migrations/
+│       ├── 001_initial_profiles.sql
+│       ├── 002_payment_passport.sql
+│       ├── 003_production_persistence.sql
+│       └── 004_production_persistence_corrections.sql
+│
+├── .env.example
+├── .gitignore
+├── README.md
+└── requirements.txt
 ```
 
----
+### Directory responsibilities
 
-## Current Scope and Limitations
-
-This README describes the implementation available on `feature/ayush-core-backend`.
-
-| Component | Branch status |
+| Directory | Responsibility |
 |---|---|
-| PayGuard UPI analysis | Implemented |
-| PayGuard URL analysis | Implemented |
-| PayGuard QR analysis | Implemented |
-| BillSense PDF/image analysis | Implemented |
-| BillSense OCR | Implemented |
-| BillSense validation and consumption analysis | Implemented |
-| Optional Groq explanations | Implemented |
-| Payment Passport backend | Implemented |
-| Supabase migration | Implemented |
-| Frontend integration | Separate workstream |
-| Flagsmith experiments | Requires integration and verification |
-| Payment Management | Not claimed as completed by this branch |
-| Recovery Desk | Not claimed as completed by this branch |
-
-### Known technical boundaries
-
-- PayGuard uses local heuristics, not live fraud-intelligence or bank verification.
-- BillSense focuses on Indian electricity bills.
-- OCR extraction can be imperfect and should be verified.
-- Groq is optional and does not determine the core risk score or bill calculations.
-- Payment Passport is an assessment-history service, not a bank transaction ledger.
-
----
-
-## Development Workflow
-
-The repository uses feature branches to isolate contributors' work.
-
-| Branch | Workstream |
-|---|---|
-| `feature/ayush-core-backend` | Ayush � core backend |
-| `feature/bhuvan-backend` | Bhuvan � separate backend work |
-| `main` | Shared integration target |
-
-### Branch safety
-
-- Develop on your assigned feature branch.
-- Review API contracts before integration.
-- Coordinate changes to shared files.
-- Do not overwrite another contributor's work.
-- Merge only after review and integration testing.
-
----
-
-<p align="center">
-  <strong>PayPause</strong><br/>
-  Think Before Money Moves.<br/><br/>
-  Built to make digital payment decisions more informed, explainable and cautious.
-</p>
-
----
-
-# Integrated Backend Modules — Bhuvan Contribution
-
-The integrated backend also includes the following modules:
-
-| Module | API prefix | Main responsibility |
-|---|---|---|
-| Payment management | `/api/payments` | Payment records, refund lifecycle and payment history |
-| Subscription management | `/api/subscriptions` | Recurring payment tracking, renewal dates and commitments |
-| Recovery desk | `/api/recovery` | Payment disputes, incident tracking and complaint assistance |
-| Experiments | `/api/experiments` | Experiment scenarios, participant assignment and evaluation |
-| Flagsmith integration | Internal service | Feature flags and experiment variant evaluation |
-
-### Architecture
-
-The integrated project retains Ayush's main FastAPI application, Supabase authentication, PayGuard, BillSense and Payment Passport. Bhuvan's modules are included as additional backend capabilities.
-
-Bhuvan's current repository implementations are development in-memory adapters. Their data is not yet durable across application restarts and must be replaced with production persistence adapters before deployment.
-
-### Bhuvan implementation documentation
-
-- `docs/BHUVAN_IMPLEMENTATION_REPORT.md`
-- `docs/INTEGRATION_GUIDE.md`
-- `docs/FLAGS_EXPERIMENT.md`
-- `docs/PAYMENT_MANAGEMENT_SPECIFICATION.md`
-- `docs/RECOVERY_SPECIFICATION.md`
-
+| `backend/app/api/` | REST endpoints |
+| `backend/app/core/`
