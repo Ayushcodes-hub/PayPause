@@ -1,4 +1,4 @@
-# PayPause — Think Before Money Moves.
+                                                   # PayPause — Think Before Money Moves.
 
 <p align="center">
   <strong>An intelligent financial safety and personal money-management platform for India.</strong>
