@@ -60,13 +60,34 @@ def experiment_service(fresh_repo, fresh_validator, fallback_flagsmith):
 
 
 @pytest.fixture
-def client(fresh_repo, fresh_validator, fallback_flagsmith):
+def client(fresh_repo, fresh_validator, fallback_flagsmith, monkeypatch):
     app = FastAPI()
     app.include_router(experiments_router)
+
     app.dependency_overrides[get_experiment_repo] = lambda: fresh_repo
     app.dependency_overrides[get_scenario_validator] = lambda: fresh_validator
     app.dependency_overrides[get_flagsmith_service] = lambda: fallback_flagsmith
-    return TestClient(app)
+
+    # Explicitly configure the test administrator.
+    monkeypatch.setenv("PAYPAUSE_EXPERIMENT_ADMIN_IDS", "test_experiment_admin")
+
+    class AuthenticatedTestClient(TestClient):
+        def post(self, url, *args, **kwargs):
+            payload = kwargs.get("json")
+            if isinstance(payload, dict) and payload.get("participant_id"):
+                headers = dict(kwargs.get("headers") or {})
+                headers.setdefault("X-User-Id", payload["participant_id"])
+                kwargs["headers"] = headers
+            return super().post(url, *args, **kwargs)
+
+        def get(self, url, *args, **kwargs):
+            if url == "/api/experiments/status":
+                headers = dict(kwargs.get("headers") or {})
+                headers.setdefault("X-User-Id", "test_experiment_admin")
+                kwargs["headers"] = headers
+            return super().get(url, *args, **kwargs)
+
+    return AuthenticatedTestClient(app)
 
 
 # ==========================================

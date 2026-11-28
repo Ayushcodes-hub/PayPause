@@ -1,7 +1,9 @@
-"""API routes for Flagsmith experimentation system."""
+﻿"""API routes for Flagsmith experimentation system."""
 
 import logging
+import os
 from typing import Annotated
+
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from backend.app.schemas.experiments import (
@@ -14,12 +16,18 @@ from backend.app.schemas.experiments import (
 )
 from backend.app.services.experiments.experiment_service import ExperimentService
 from backend.app.core.dependencies import (
+    get_current_user,
     get_experiment_repo,
     get_scenario_validator,
     get_flagsmith_service,
 )
-from backend.app.repositories.interfaces.experiment_repo import ExperimentRepositoryInterface
-from backend.app.repositories.interfaces.scenario_validator import ScenarioValidatorInterface
+from backend.app.core.security import AuthenticatedUser
+from backend.app.repositories.interfaces.experiment_repo import (
+    ExperimentRepositoryInterface,
+)
+from backend.app.repositories.interfaces.scenario_validator import (
+    ScenarioValidatorInterface,
+)
 from backend.app.integrations.flagsmith.client import FlagsmithIntegrationService
 
 logger = logging.getLogger("paypause.api.experiments")
@@ -39,6 +47,29 @@ def get_experiment_service(
     )
 
 
+def _authenticated_participant(
+    req: ExperimentAssignRequest | ExperimentSubmitRequest,
+    current_user: AuthenticatedUser,
+):
+    """Never accept a participant identity supplied by the client."""
+    return req.model_copy(update={"participant_id": current_user.user_id})
+
+
+def _require_experiment_admin(current_user: AuthenticatedUser) -> None:
+    """Restrict aggregate experiment telemetry to explicitly configured admins."""
+    allowed_ids = {
+        value.strip()
+        for value in os.getenv("PAYPAUSE_EXPERIMENT_ADMIN_IDS", "").split(",")
+        if value.strip()
+    }
+
+    if not allowed_ids or current_user.user_id not in allowed_ids:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Administrator access is required for experiment telemetry.",
+        )
+
+
 @router.get(
     "/scenarios",
     response_model=list[ExperimentScenarioResponse],
@@ -46,11 +77,8 @@ def get_experiment_service(
 )
 def list_experiment_scenarios(
     service: Annotated[ExperimentService, Depends(get_experiment_service)],
+    current_user: Annotated[AuthenticatedUser, Depends(get_current_user)],
 ) -> list[ExperimentScenarioResponse]:
-    """Retrieve scenarios available for the experimentation study.
-
-    Expected answers and validation logic are strictly withheld.
-    """
     try:
         return service.get_public_scenarios()
     except Exception:
@@ -68,19 +96,23 @@ def list_experiment_scenarios(
 )
 def assign_experiment_variant(
     req: ExperimentAssignRequest,
+    current_user: Annotated[AuthenticatedUser, Depends(get_current_user)],
     service: Annotated[ExperimentService, Depends(get_experiment_service)],
 ) -> ExperimentAssignResponse:
-    """Retrieve or allocate an experiment variant for a participant/session.
-
-    Guarantees deterministic stability for each participant identity.
-    """
     try:
-        return service.assign_participant(req)
+        trusted_request = _authenticated_participant(req, current_user)
+        return service.assign_participant(trusted_request)
     except ValueError as exc:
         logger.warning("Invalid assign request: %s", exc)
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc))
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(exc),
+        )
     except Exception:
-        logger.exception("Experiment assignment failed for participant '%s'", req.participant_id)
+        logger.exception(
+            "Experiment assignment failed for authenticated user '%s'",
+            current_user.user_id,
+        )
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Experiment assignment failed. Please try again later.",
@@ -94,21 +126,21 @@ def assign_experiment_variant(
 )
 def submit_experiment_attempt(
     req: ExperimentSubmitRequest,
+    current_user: Annotated[AuthenticatedUser, Depends(get_current_user)],
     service: Annotated[ExperimentService, Depends(get_experiment_service)],
 ) -> ExperimentSubmitResponse:
-    """Evaluate participant's scenario response against canonical backend criteria.
-
-    Protected against duplicates via scoped idempotency keys. Emits primary metric
-    'risk_check_correctly_completed' only upon genuine backend verification.
-    Local persistence and event recording are atomic. Flagsmith events are
-    forwarded only after a submission is confirmed as newly accepted.
-    """
     try:
-        return service.submit_scenario_attempt(req)
+        trusted_request = _authenticated_participant(req, current_user)
+        return service.submit_scenario_attempt(trusted_request)
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(exc),
+        )
     except Exception:
         logger.exception(
-            "Submission processing failed for participant '%s', scenario '%s'",
-            req.participant_id,
+            "Submission processing failed for authenticated user '%s', scenario '%s'",
+            current_user.user_id,
             req.scenario_id,
         )
         raise HTTPException(
@@ -120,19 +152,14 @@ def submit_experiment_attempt(
 @router.get(
     "/status",
     response_model=ExperimentStatusResponse,
-    summary="Retrieve experiment telemetry, assignment counts, and variant stats",
+    summary="Retrieve administrator-only experiment telemetry",
 )
 def get_experiment_status(
+    current_user: Annotated[AuthenticatedUser, Depends(get_current_user)],
     service: Annotated[ExperimentService, Depends(get_experiment_service)],
 ) -> ExperimentStatusResponse:
-    """Return aggregated metrics, variant breakdown, and recorded telemetry.
+    _require_experiment_admin(current_user)
 
-    Returns only aggregate counts. No individual participant records are exposed.
-
-    Production deployment note:
-        Evaluate whether operator/admin authorization is required before
-        exposing this endpoint publicly in a production deployment.
-    """
     try:
         return service.get_experiment_status()
     except Exception:
