@@ -3,7 +3,7 @@ from functools import lru_cache
 from supabase import Client, create_client
 from supabase.lib.client_options import SyncClientOptions
 
-from backend.app.core.config import settings
+from app.core.config import settings
 
 
 @lru_cache(maxsize=1)

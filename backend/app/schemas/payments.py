@@ -105,7 +105,7 @@ class PaymentResponse(BaseModel):
     linked_bill_id: Optional[str] = None
     linked_incident_id: Optional[str] = None
     notes: Optional[str] = None
-    duplicate_warning: Optional[dict[str, Any]] = None
+    duplicate_warning: Optional[bool | dict[str, Any]] = None
     created_at: str
     updated_at: str
 

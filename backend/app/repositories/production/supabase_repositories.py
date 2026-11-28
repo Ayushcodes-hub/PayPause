@@ -1,4 +1,4 @@
-﻿"""Production Supabase repository adapters for PayPause.
+"""Production Supabase repository adapters for PayPause.
 
 All user-owned reads and writes are explicitly owner-scoped. The Supabase
 service-role client bypasses RLS, so application-level filters are mandatory.
@@ -9,7 +9,7 @@ from datetime import datetime, timezone
 from typing import Any
 from uuid import uuid4
 
-from backend.app.core.supabase import get_supabase_admin_client
+from app.core.supabase import get_supabase_admin_client
 
 
 def _now() -> str:

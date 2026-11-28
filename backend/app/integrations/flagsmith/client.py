@@ -10,7 +10,7 @@ from typing import Optional, Any
 from flagsmith import Flagsmith
 from flagsmith.exceptions import FlagsmithAPIError, FlagsmithClientError
 
-from backend.app.core.config import Settings, get_settings
+from app.core.config import Settings, get_settings
 
 logger = logging.getLogger("paypause.flagsmith")
 

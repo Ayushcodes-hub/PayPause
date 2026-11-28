@@ -10,7 +10,7 @@ from typing import Annotated, Optional
 
 from fastapi import Header, Depends
 
-from backend.app.core.config import Settings, get_settings
+from app.core.config import Settings, get_settings
 from backend.app.core.security import AuthenticatedUser
 
 from backend.app.repositories.interfaces.payment_repo import PaymentRepositoryInterface
@@ -81,7 +81,7 @@ def _get_repository_bundle():
         )
 
     # Validate the actual service-role connection before exposing repositories.
-    from backend.app.core.supabase import get_supabase_admin_client
+    from app.core.supabase import get_supabase_admin_client
     get_supabase_admin_client()
 
     from backend.app.repositories.production import (
